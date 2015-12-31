@@ -84,13 +84,33 @@ J = (1/m) * (sum(sum(cost))) + (lambda / (2 * m)) * ...
 % for c = 1: m,
 
 % end;
+delta1 = zeros(size(Theta1));
+delta2 = zeros(size(Theta2));
 
 
-% for c = 1: m,
+for t = 1: m,
 
-	
-% 	J += (1/m) * sum(cost) ;
-% end;
+    a1t = a1(t,:)';
+    a2t = a2(t,:)';
+    ht = h(t,:)';
+    yVecT = yVec(t,:)';
+
+    d3t = ht - yVecT;
+
+    z2t = [1; Theta1 * a1t];
+    d2t = Theta2' * d3t .* sigmoidGradient(z2t);
+
+    delta1 = delta1 + d2t(2:end) * a1t';
+    delta2 = delta2 + d3t * a2t';
+end;
+
+%Theta1_grad = (1 / m) * delta1;
+%Theta2_grad = (1 / m) * delta2;
+
+Theta1ZeroedBias = [ zeros(size(Theta1, 1), 1) Theta1ExcludingBias ];
+Theta2ZeroedBias = [ zeros(size(Theta2, 1), 1) Theta2ExcludingBias ];
+Theta1_grad = (1 / m) * delta1 + (lambda / m) * Theta1ZeroedBias;
+Theta2_grad = (1 / m) * delta2 + (lambda / m) * Theta2ZeroedBias;
 
 %+ (lambda / (2 * m)) * sum(thetaExcludingZero .^ 2);
 
