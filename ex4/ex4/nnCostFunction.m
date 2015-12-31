@@ -70,18 +70,22 @@ a3 = sigmoid(a2 * Theta2');
 h = a3;
 
 % fix y vector
-yVec = repmat([1 : num_labels], m, 1) == repmat(y, 1, num_labels);
+yVec = eye(num_labels)(y,:);
 cost = -yVec .* log(h) - (1 - yVec).*log(1 - h);
 
 % thetaExcludingZero = [ [0]; theta([2: length(theta)]) ];
 J = (1/m) * (sum(sum(cost)));
 
-
 for c = 1: m,
 
-	cost = -y .* log(h) - (1 - y).*log(1 - h);
-	J += (1/m) * sum(cost) ;
 end;
+
+
+% for c = 1: m,
+
+	
+% 	J += (1/m) * sum(cost) ;
+% end;
 
 %+ (lambda / (2 * m)) * sum(thetaExcludingZero .^ 2);
 
