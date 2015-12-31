@@ -74,11 +74,16 @@ yVec = eye(num_labels)(y,:);
 cost = -yVec .* log(h) - (1 - yVec).*log(1 - h);
 
 % thetaExcludingZero = [ [0]; theta([2: length(theta)]) ];
-J = (1/m) * (sum(sum(cost)));
 
-for c = 1: m,
+Theta1ExcludingBias = Theta1(:, 2:end);
+Theta2ExcludingBias = Theta2(:, 2:end);
+J = (1/m) * (sum(sum(cost))) + (lambda / (2 * m)) * ...
+	(sum(sum(Theta1ExcludingBias .^2 ))+ sum(sum(Theta2ExcludingBias .^2)));
 
-end;
+
+% for c = 1: m,
+
+% end;
 
 
 % for c = 1: m,
