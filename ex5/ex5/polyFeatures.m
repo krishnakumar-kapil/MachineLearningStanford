@@ -15,9 +15,10 @@ X_poly = zeros(numel(X), p);
 %
 % 
 
-
-
-
+m = length(X);
+powers = repmat([1:p], m, 1);
+Xrep = repmat(X, 1, p);
+X_poly = Xrep .^ powers;
 
 
 % =========================================================================

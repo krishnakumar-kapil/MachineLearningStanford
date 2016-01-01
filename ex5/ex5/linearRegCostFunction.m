@@ -21,6 +21,20 @@ grad = zeros(size(theta));
 
 
 
+h = X * theta;
+
+% Calculate squared error for each training example.
+
+squaredErrors = (h - y) .^ 2;
+
+% Calculate the cost function J.  The final result is a scalar.
+thetaExcludingZero = [0 ;theta(2:end)];
+J = (1 / (2 * m)) * sum(squaredErrors) + (lambda / (2 * m)) * sum(thetaExcludingZero .^ 2);;
+
+% h = X * theta;
+% J = 1/(2*m) * sum((h - y).^2) + 
+grad = 1/m .* ( X' * (h - y) ) + lambda / (m) * thetaExcludingZero;
+
 
 
 
