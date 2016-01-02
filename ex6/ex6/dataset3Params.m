@@ -24,9 +24,37 @@ sigma = 0.3;
 %
 
 
+% cycle through the set of training examples and see what the difference is...
+% 
+possC = [.01 .03 .1 .3 1 3 10 30];
 
 
 
+model= svmTrain(X, y, C, @(x1, x2) gaussianKernel(x1, x2, sigma));
+predictions = svmPredict(model, Xval);
+predictionsError = mean(double(predictions ~= yval));
+
+bestC = 1;
+bestSigma = .3;
+bestPredError = predictionsError;
+for Cchange = 1: 8,
+	C = possC(Cchange);
+	for schange = 1: 8,
+		sigma = possC(schange);
+		model= svmTrain(X, y, C, @(x1, x2) gaussianKernel(x1, x2, sigma));
+		predictions = svmPredict(model, Xval);
+		predictionsError = mean(double(predictions ~= yval));
+		if bestPredError > predictionsError,
+			bestPredError = predictionsError;
+			bestC = C;
+			bestSigma = sigma;
+		end;
+
+	end;
+end;
+
+C = bestC;
+sigma = bestSigma;
 
 
 % =========================================================================
