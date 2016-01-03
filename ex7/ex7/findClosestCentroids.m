@@ -22,8 +22,17 @@ idx = zeros(size(X,1), 1);
 %
 
 
+for i = 1: size(X, 1),
+	bestDist = Inf;
+	for c = 1: K
+		dist = norm(X(i,:) - centroids(c,:)) ^ 2;
+		if dist < bestDist
+			bestDist = dist;
+			idx(i) = c;
+		end;
+	end;
 
-
+end;
 
 
 
