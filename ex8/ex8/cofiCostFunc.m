@@ -42,8 +42,24 @@ Theta_grad = zeros(size(Theta));
 
 
 
+% for j = 1: num_users,
+% 	for i = 1: num_features,
+% 		if R(j,i) == 1,
+% 			pred = Theta(j)' * X;
+% 			J += (pred(i) - Y(i)).^2
+% 	end;
+% end;
 
+% J = 1/2 * J;
 
+errors = ((X * Theta' - Y) .* R);
+squaredErrors = errors .^ 2;
+J = ((1 / 2) * sum(squaredErrors(:))) + ...
+    ((lambda / 2) * sum(Theta(:) .^ 2)) + ...
+    ((lambda / 2) * sum(X(:) .^ 2));
+
+X_grad = errors * Theta .+ (lambda .* X);
+Theta_grad = errors' * X .+ (lambda .* Theta);
 
 
 
